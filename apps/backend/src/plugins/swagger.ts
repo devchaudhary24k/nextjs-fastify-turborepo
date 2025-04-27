@@ -14,13 +14,13 @@ const swaggerPlugin = async (f: FastifyInstance) => {
       },
       servers: [
         {
-          url: "http://localhost:3000",
+          url: "http://localhost:8000",
           description: "Development Server",
         },
       ],
       tags: [
-        { name: "user", description: "User related end-points" },
-        { name: "project", description: "Projects related end-points" },
+        { name: "User", description: "User related end-points" },
+        { name: "Projects", description: "Projects related end-points" },
       ],
       components: {
         securitySchemes: {},

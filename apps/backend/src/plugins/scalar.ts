@@ -8,7 +8,6 @@ const scalarPlugin = async (f: FastifyInstance) => {
     configuration: {
       title: "Our API Reference",
       theme: "purple",
-      // url: "/openapi.json",
     },
   });
 };

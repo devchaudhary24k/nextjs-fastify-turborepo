@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@fastify/swagger": "^9.5.0",
-    "@fastify/swagger-ui": "^5.2.2",
     "@scalar/fastify-api-reference": "^1.28.26",
     "fastify": "^5.3.2",
     "fastify-metrics": "^12.1.0",
