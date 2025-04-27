@@ -1,27 +1,26 @@
-import { Hono } from 'hono'
-import {logger} from "hono/logger"
-import { prettyJSON } from 'hono/pretty-json'
-import { userRoute } from './routes/v1/user'
+import type { FastifyInstance } from "fastify";
+import Fastify from "fastify";
 
-// Initialize Hono
-const app = new Hono()
+import metricsPlugin from "./plugins/metrics";
+import scalarPlugin from "./plugins/scalar";
+import swaggerPlugin from "./plugins/swagger";
+import swaggerUiPlugin from "./plugins/swagger-ui";
+import { helloRoute } from "./routes/v1/users/user.route";
 
-// Middlwares
-app.use(logger())
-app.use(prettyJSON())
+export const server = async () => {
+  // Initialize App
+  const f: FastifyInstance = Fastify({ logger: true });
 
-// Error Handling
-app.onError((err,c)=> {
-  console.log(err);
-  return c.json({error:"Internal Server Error"}, 500)
-  
-})
+  // Initialize Plugins
+  await f.register(swaggerPlugin);
+  await f.register(swaggerUiPlugin);
+  await f.register(scalarPlugin);
+  await f.register(metricsPlugin);
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+  // Load Rotues
+  await f.register(helloRoute);
 
-const apiRoutes = app.basePath('/api/v1/').route("/user", userRoute);
+  // Middlewares
 
-export default app;
-export type ApiRoutes = typeof apiRoutes;
+  return f;
+};

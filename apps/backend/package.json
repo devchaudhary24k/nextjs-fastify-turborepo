@@ -1,18 +1,26 @@
 {
   "name": "backend",
   "scripts": {
-    "start": "bun run src/index.ts",
-    "dev": "bun run --hot src/index.ts",
+    "start": "node dist/server.js",
+    "dev": "bun run --hot src/server.ts",
+    "build": "tsc -p tsconfig.json --noEmit false --declaration true --sourceMap false --pretty false",
+    "lint": "eslint .",
     "clean": "git clean -xdf .cache .turbo dist node_modules .next",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@hono/zod-validator": "^0.4.3",
-    "hono": "^4.7.7",
+    "@fastify/swagger": "^9.5.0",
+    "@fastify/swagger-ui": "^5.2.2",
+    "@scalar/fastify-api-reference": "^1.28.26",
+    "fastify": "^5.3.2",
+    "fastify-metrics": "^12.1.0",
+    "fastify-plugin": "^5.0.1",
     "nanoid": "^5.1.5",
     "zod": "^3.24.3"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^22.15.2"
   }
 }
