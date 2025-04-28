@@ -3,7 +3,7 @@
   "scripts": {
     "start": "node dist/server.js",
     "dev": "bun run --hot src/server.ts",
-    "build": "tsc -p tsconfig.json --noEmit false --declaration true --sourceMap false --pretty false",
+    "build": "tsup",
     "lint": "eslint .",
     "clean": "git clean -xdf .cache .turbo dist node_modules .next",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
@@ -20,6 +20,7 @@
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@types/node": "^22.15.2"
+    "@types/node": "^22.15.2",
+    "tsup": "^8.4.0"
   }
 }

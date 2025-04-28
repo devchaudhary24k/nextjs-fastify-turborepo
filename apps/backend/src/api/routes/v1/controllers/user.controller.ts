@@ -1,5 +1,9 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 
+type GetUserParams = {
+  id: string;
+};
+
 export const getUsersHandler = async (
   req: FastifyRequest,
   reply: FastifyReply,
@@ -9,7 +13,7 @@ export const getUsersHandler = async (
 };
 
 export const getUserHandler = async (
-  req: FastifyRequest,
+  req: FastifyRequest<{ Params: GetUserParams }>,
   reply: FastifyReply,
 ) => {
   const { id } = req.params;
