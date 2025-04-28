@@ -1,0 +1,41 @@
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "8080:80"
+      - "8433:443"
+    volumes:
+      - ./nginx.development.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app
+      - backend
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: .
+      dockerfile: ./apps/app/Dockerfile.development
+    container_name: app
+    env_file:
+      - ./apps/app/.env.local
+    environment:
+      - NODE_ENV=development
+    networks:
+      - app-network
+  backend:
+    build:
+      context: .
+      dockerfile: ./apps/backend/Dockerfile.development
+    container_name: api
+    env_file:
+      - ./apps/backend/.env.local
+    environment:
+      - NODE_ENV=development
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

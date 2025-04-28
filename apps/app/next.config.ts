@@ -1,10 +1,11 @@
 import type { NextConfig } from "next";
 
-import { env } from "./src/env";
+import "@/env";
 
-if (env) {
-  console.log("hello");
-}
-const nextConfig: NextConfig = {};
+const nextConfig: NextConfig = {
+  compress: false,
+  output: "standalone",
+  transpilePackages: ["@t3-oss/env-nextjs", "@t3-oss/env-core"],
+};
 
 export default nextConfig;
