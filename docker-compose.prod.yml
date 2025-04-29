@@ -6,7 +6,7 @@ services:
       - "8080:80"
       - "8433:443"
     volumes:
-      - ./nginx.production.conf:/etc/nginx/nginx.conf
+      - ./nginx.prod.conf:/etc/nginx/nginx.conf
     depends_on:
       - app
       - backend
@@ -16,7 +16,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: ./apps/app/Dockerfile.production
+      dockerfile: ./apps/app/Dockerfile.prod
     container_name: app
     env_file:
       - ./apps/app/.env.production
@@ -27,7 +27,7 @@ services:
   backend:
     build:
       context: .
-      dockerfile: ./apps/api/Dockerfile.production
+      dockerfile: ./apps/api/Dockerfile.prod
     container_name: api
     env_file:
       - ./apps/backend/.env.production

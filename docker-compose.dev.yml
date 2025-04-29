@@ -6,7 +6,7 @@ services:
       - "8080:80"
       - "8433:443"
     volumes:
-      - ./nginx.development.conf:/etc/nginx/nginx.conf
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf
     depends_on:
       - app
       - backend
@@ -16,7 +16,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: ./apps/app/Dockerfile.development
+      dockerfile: ./apps/app/Dockerfile.dev
     container_name: app
     env_file:
       - ./apps/app/.env.local
@@ -27,7 +27,7 @@ services:
   backend:
     build:
       context: .
-      dockerfile: ./apps/backend/Dockerfile.development
+      dockerfile: ./apps/backend/Dockerfile.dev
     container_name: api
     env_file:
       - ./apps/backend/.env.local

@@ -39,5 +39,8 @@ RUN adduser --system --uid 1001 fastify
 USER fastify
 
 COPY --from=installer --chown=fastify:nodejs /app/apps/backend/dist ./dist
+COPY --from=installer --chown=fastify:nodejs /app/apps/backend/node_modules ./node_modules 
 
-CMD ["node", "dist/server.js"]
+
+
+CMD ["node", "/app/dist/server.js"]
