@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "./globals.css";
+
+import "@repo/design-system/src/styles/globals.css";
 
 const Inter = localFont({
   src: "./fonts/Inter.ttf",
@@ -19,9 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${Inter.variable}`}>
-        {children}
-      </body>
+      <body className={`${Inter.variable}`}>{children}</body>
     </html>
   );
 }

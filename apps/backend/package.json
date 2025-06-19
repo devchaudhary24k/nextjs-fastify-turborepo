@@ -1,16 +1,18 @@
 {
   "name": "backend",
   "scripts": {
-    "start": "node dist/server.js",
-    "dev": "bun run --hot src/server.ts",
+    "start": "node dist/app.js",
+    "dev": "bun run --hot src/app.ts",
     "build": "tsc -p tsconfig.json --noEmit false --declaration true --sourceMap false --pretty false",
     "lint": "eslint .",
     "clean": "git clean -xdf .cache .turbo dist node_modules .next",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
+    "@fastify/cors": "^11.0.1",
     "@fastify/swagger": "^9.5.1",
     "@scalar/fastify-api-reference": "^1.31.14",
+    "better-auth": "^1.2.9",
     "fastify": "^5.4.0",
     "fastify-metrics": "^12.1.0",
     "fastify-plugin": "^5.0.1",

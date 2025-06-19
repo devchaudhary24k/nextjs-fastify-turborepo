@@ -1,3 +1,4 @@
+import cors from "@fastify/cors";
 import type { FastifyInstance } from "fastify";
 import Fastify from "fastify";
 
@@ -7,6 +8,10 @@ import { registerPlugins } from "./plugins";
 export const server = async () => {
   // Initialize App
   const f: FastifyInstance = Fastify({ logger: true });
+
+  await f.register(cors, {
+    origin: "localhost",
+  });
 
   // Initialize Plugins
   await f.register(registerPlugins);
