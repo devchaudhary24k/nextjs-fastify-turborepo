@@ -10,7 +10,7 @@
     "db:migrate": "drizzle-kit migrate --config ../../packages/database/drizzle.config.ts"
   },
   "dependencies": {
-    "drizzle-kit": "^0.31.0"
+    "drizzle-kit": "^0.31.1"
   },
   "devDependencies": {}
 }

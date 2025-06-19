@@ -3,8 +3,7 @@ import type { NextConfig } from "next";
 import "@/env";
 
 const nextConfig: NextConfig = {
-  compress: false,
-  output: "standalone",
+  compress: true,
   transpilePackages: ["@t3-oss/env-nextjs", "@t3-oss/env-core"],
 };
 
