@@ -7,9 +7,9 @@ const swaggerPlugin = async (f: FastifyInstance) => {
     openapi: {
       openapi: "3.0.0",
       info: {
-        title: "Pixelact Studios API Docs",
+        title: "Nextjs Fastify Starter Kit API Docs",
         description:
-          "These are official docs of backend server of Pixelact Studios",
+          "These are official docs of backend server of Nextjs Fastify Starter Kit",
         version: "0.0.1",
       },
       servers: [
