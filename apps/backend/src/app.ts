@@ -1,4 +1,4 @@
-import cors from "@fastify/cors";
+import fastifyCors from "@fastify/cors";
 import type { FastifyInstance } from "fastify";
 import Fastify from "fastify";
 
@@ -9,8 +9,13 @@ export const server = async () => {
   // Initialize App
   const f: FastifyInstance = Fastify({ logger: true });
 
-  await f.register(cors, {
-    origin: "localhost",
+  // Configure CORS policies
+  f.register(fastifyCors, {
+    origin: process.env.CLIENT_ORIGIN || "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+    credentials: true,
+    maxAge: 86400,
   });
 
   // Initialize Plugins
