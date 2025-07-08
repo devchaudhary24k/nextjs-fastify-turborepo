@@ -1,5 +1,6 @@
 {
   "name": "backend",
+  "type": "module",
   "scripts": {
     "start": "node dist/app.js",
     "dev": "bun run --hot src/app.ts",
@@ -9,6 +10,7 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
+    "@repo/database": "workspace:*",
     "@fastify/cors": "^11.0.1",
     "@fastify/swagger": "^9.5.1",
     "@scalar/fastify-api-reference": "^1.31.14",

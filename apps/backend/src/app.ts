@@ -2,8 +2,8 @@ import cors from "@fastify/cors";
 import type { FastifyInstance } from "fastify";
 import Fastify from "fastify";
 
-import { registerRoutes } from "./api";
-import { registerPlugins } from "./plugins";
+import { registerRoutes } from "@/api/index";
+import { registerPlugins } from "@/plugins";
 
 export const server = async () => {
   // Initialize App
@@ -16,17 +16,14 @@ export const server = async () => {
   // Initialize Plugins
   await f.register(registerPlugins);
 
-  // Load Rotues
-  f.register(registerRoutes, { prefix: "/api" });
-
-  // Middlewares
+  // Load Routes
+  f.register(registerRoutes, { prefix: "/" });
 
   return f;
 };
 
 const startServer = async () => {
   const app = await server();
-
   app.listen({ port: 8000, host: "0.0.0.0" }, (err, address) => {
     if (err) {
       app.log.error(err);
