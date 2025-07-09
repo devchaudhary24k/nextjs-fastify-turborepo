@@ -14,16 +14,6 @@ export const env = createEnv({
   },
 
   /**
-   * The prefix that client-side variables must have. This is enforced both at
-   * a type-level and at runtime.
-   */
-  clientPrefix: "PUBLIC_",
-
-  client: {
-    // PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1),
-  },
-
-  /**
    * What object holds the environment variables at runtime. This is usually
    * `process.env` or `import.meta.env`.
    */
