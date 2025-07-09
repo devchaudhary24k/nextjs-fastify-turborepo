@@ -4,13 +4,15 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { openAPI, organization } from "better-auth/plugins";
 
+import { env } from "@/env";
+
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
   }),
 
   // TODO: Add env here
-  trustedOrigins: ["http://localhost:3000"],
+  trustedOrigins: [env.CLIENT_ORIGIN],
 
   emailAndPassword: {
     enabled: true,
@@ -35,6 +37,13 @@ export const auth = betterAuth({
       //   subject: "Verify your email",
       //   text: `Click on the link to verify your email: ${url}`,
       // });
+    },
+  },
+
+  socialProviders: {
+    github: {
+      clientId: env.GITHUB_CLIENT_ID,
+      clientSecret: env.GITHUB_CLIENT_SECRET,
     },
   },
 
