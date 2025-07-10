@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@repo/security/*": ["./src/*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx"],

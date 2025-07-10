@@ -12,7 +12,7 @@ export const server = async () => {
 
   // Configure CORS policies
   f.register(fastifyCors, {
-    origin: env.CLIENT_ORIGIN || "http://localhost:3000",
+    origin: env.CLIENT_ORIGIN,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
     credentials: true,

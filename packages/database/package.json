@@ -17,13 +17,13 @@
     "bufferutil": "^4.0.9",
     "drizzle-orm": "^0.44.2",
     "server-only": "^0.0.1",
-    "ws": "^8.18.2",
-    "zod": "^3.25.67"
+    "ws": "^8.18.3",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/ws": "^8.18.1",
-    "drizzle-kit": "^0.31.1"
+    "drizzle-kit": "^0.31.4"
   }
 }

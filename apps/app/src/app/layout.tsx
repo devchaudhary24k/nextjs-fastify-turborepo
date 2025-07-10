@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
-import "@repo/design-system/src/styles/globals.css";
+import "@repo/design-system/styles/globals.css";
 
 const Inter = localFont({
   src: "./fonts/Inter.ttf",
@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body className={`${Inter.variable}`}>{children}</body>
     </html>
   );

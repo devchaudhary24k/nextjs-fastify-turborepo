@@ -3,7 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@repo/analytics/*": ["./src/*"],
+      "@repo/*": ["../*"]
     }
   },
   "exclude": ["node_modules", "dist"]

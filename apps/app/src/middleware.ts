@@ -9,7 +9,8 @@ import {
 import { auth } from "./lib/auth";
 
 export default async function authMiddleware(request: NextRequest) {
-  const session = await auth.getSession();
+  const { data: session } = await auth.getSession();
+  console.log(session);
 
   // Get the current path
   const path = request.nextUrl.pathname;
