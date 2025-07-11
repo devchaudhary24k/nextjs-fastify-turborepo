@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
+    "@better-fetch/fetch": "^1.1.18",
     "@hookform/resolvers": "^5.1.1",
     "@repo/database": "workspace:*",
     "@repo/design-system": "workspace:*",

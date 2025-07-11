@@ -1,204 +1,185 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import type { HTMLAttributes } from "react";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@repo/design-system/components/ui/button";
+import { Card, CardContent } from "@repo/design-system/components/ui/card";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@repo/design-system/components/ui/card";
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@repo/design-system/components/ui/form";
 import { Input } from "@repo/design-system/components/ui/input";
-import { Label } from "@repo/design-system/components/ui/label";
-import { Loader2, X } from "lucide-react";
+import { cn } from "@repo/design-system/lib/utils";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import type { z } from "zod";
 
 import { auth } from "@/lib/auth";
 
-export function SignUp() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [image, setImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
+import { RegisterSchema } from "../validators/auth-schema";
+import { ProviderSignIn } from "./provider-sign-in";
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImage(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
+type SignUpFormProps = {} & HTMLAttributes<HTMLFormElement>;
+
+export const SignUpForm = ({ className, ...props }: SignUpFormProps) => {
+  const router = useRouter();
+  const form = useForm<z.infer<typeof RegisterSchema>>({
+    resolver: zodResolver(RegisterSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
+    await auth.signUp.email({
+      email: values.email,
+      name: values.name,
+      password: values.password,
+      fetchOptions: {
+        onError: (ctx) => {
+          form.reset();
+          toast.error(ctx.error.message);
+        },
+        onSuccess: (ctx) => {
+          router.push(
+            `/auth/verify-email?id=${ctx.data.user.email}&email=${ctx.data.user.email}`,
+          );
+        },
+      },
+    });
   };
 
   return (
-    <Card className="z-50 max-w-md rounded-md rounded-t-none">
-      <CardHeader>
-        <CardTitle className="text-lg md:text-xl">Sign Up</CardTitle>
-        <CardDescription className="text-xs md:text-sm">
-          Enter your information to create an account
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="grid gap-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="first-name">First name</Label>
-              <Input
-                id="first-name"
-                placeholder="Max"
-                required
-                onChange={(e) => {
-                  setFirstName(e.target.value);
-                }}
-                value={firstName}
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="last-name">Last name</Label>
-              <Input
-                id="last-name"
-                placeholder="Robinson"
-                required
-                onChange={(e) => {
-                  setLastName(e.target.value);
-                }}
-                value={lastName}
-              />
-            </div>
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="m@example.com"
-              required
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              value={email}
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="new-password"
-              placeholder="Password"
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="password">Confirm Password</Label>
-            <Input
-              id="password_confirmation"
-              type="password"
-              value={passwordConfirmation}
-              onChange={(e) => setPasswordConfirmation(e.target.value)}
-              autoComplete="new-password"
-              placeholder="Confirm Password"
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="image">Profile Image (optional)</Label>
-            <div className="flex items-end gap-4">
-              {imagePreview && (
-                <div className="relative h-16 w-16 overflow-hidden rounded-sm">
-                  <Image
-                    src={imagePreview}
-                    alt="Profile preview"
-                    layout="fill"
-                    objectFit="cover"
+    <div className={cn("flex flex-col gap-6", className)}>
+      <Card className="overflow-hidden py-0">
+        <CardContent className="grid p-0 md:grid-cols-2">
+          <Form {...form} {...props}>
+            <form className="p-6 md:p-8" onSubmit={form.handleSubmit(onSubmit)}>
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col items-center text-center">
+                  <h1 className="text-2xl font-bold">Sign up</h1>
+                  <p className="text-muted-foreground text-balance">
+                    Create an account to get started
+                  </p>
+                </div>
+
+                <div className="grid gap-2">
+                  {/* Name Field */}
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder="Your name"
+                            type="text"
+                            disabled={form.formState.isSubmitting}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
                 </div>
-              )}
-              <div className="flex w-full items-center gap-2">
-                <Input
-                  id="image"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="w-full"
-                />
-                {imagePreview && (
-                  <X
-                    className="cursor-pointer"
-                    onClick={() => {
-                      setImage(null);
-                      setImagePreview(null);
-                    }}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={loading}
-            onClick={async () => {
-              await auth.signUp.email({
-                email,
-                password,
-                name: `${firstName} ${lastName}`,
-                image: image ? await convertImageToBase64(image) : "",
-                callbackURL: "/dashboard",
-                fetchOptions: {
-                  onResponse: () => {
-                    setLoading(false);
-                  },
-                  onRequest: () => {
-                    setLoading(true);
-                  },
-                  onError: (ctx) => {
-                    toast.error(ctx.error.message);
-                  },
-                  onSuccess: async () => {
-                    router.push("/dashboard");
-                  },
-                },
-              });
-            }}
-          >
-            {loading ? (
-              <Loader2 size={16} className="animate-spin" />
-            ) : (
-              "Create an account"
-            )}
-          </Button>
-        </div>
-      </CardContent>
-      <CardFooter>
-        <div className="flex w-full justify-center border-t py-4">
-          <p className="text-center text-xs text-neutral-500">
-            Secured by <span className="text-orange-400">better-auth.</span>
-          </p>
-        </div>
-      </CardFooter>
-    </Card>
-  );
-}
 
-async function convertImageToBase64(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result as string);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
+                <div className="grid gap-2">
+                  {/* Email Field */}
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder="m@example.com"
+                            type="email"
+                            disabled={form.formState.isSubmitting}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="grid gap-2">
+                  {/* Password Field */}
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder="********"
+                            type="password"
+                            disabled={form.formState.isSubmitting}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  disabled={form.formState.isSubmitting}
+                  className="w-full"
+                >
+                  Create account
+                </Button>
+                <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
+                  <span className="bg-card text-muted-foreground relative z-10 px-2">
+                    Or continue with
+                  </span>
+                </div>
+                <ProviderSignIn />
+                <div className="text-center text-sm">
+                  Already have an account?{" "}
+                  <Link
+                    href="/auth/login"
+                    className="underline underline-offset-4"
+                  >
+                    Log in
+                  </Link>
+                </div>
+              </div>
+            </form>
+          </Form>
+          <div className="bg-muted relative hidden md:block">
+            <Image
+              src="/hero-section-image.webp"
+              width={100}
+              height={100}
+              alt="Image"
+              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+            />
+          </div>
+        </CardContent>
+      </Card>
+      <div className="text-muted-foreground hover:[&_a]:text-primary text-balance text-center text-xs [&_a]:underline [&_a]:underline-offset-4">
+        By clicking continue, you agree to our{" "}
+        <Link href="#">Terms of Service</Link> and{" "}
+        <Link href="#">Privacy Policy</Link>.
+      </div>
+    </div>
+  );
+};

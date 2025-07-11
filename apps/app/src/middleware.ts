@@ -1,16 +1,20 @@
 import { type NextRequest, NextResponse } from "next/server";
 
+import { betterFetch } from "@better-fetch/fetch";
+
 import {
   DEFAULT_LOGIN_REDIRECT,
   authRoutes,
   protectedRoutes,
 } from "@/constants/routes";
 
-import { auth } from "./lib/auth";
-
 export default async function authMiddleware(request: NextRequest) {
-  const { data: session } = await auth.getSession();
-  console.log(session);
+  const { data: session } = await betterFetch("/api/auth/get-session", {
+    baseURL: request.nextUrl.origin,
+    headers: {
+      cookie: request.headers.get("cookie") || "", // Forward the cookies from the request
+    },
+  });
 
   // Get the current path
   const path = request.nextUrl.pathname;
