@@ -32,3 +32,31 @@ export const getUserSchema = {
     },
   },
 };
+
+export const getUserVerificationSchema = {
+  tags: ["User"],
+  description: "Checks if the user have verified email.",
+  params: {
+    type: "object",
+    required: ["id"],
+    properties: {
+      id: { type: "string" },
+    },
+  },
+  response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        isVerified: { type: "boolean" },
+      },
+    },
+    500: {
+      description: "Internal Server Error",
+      type: "object",
+      properties: {
+        error: { type: "string" },
+      },
+    },
+  },
+};
