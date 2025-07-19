@@ -40,6 +40,15 @@ export const SignUpForm = ({ className, ...props }: SignUpFormProps) => {
     },
   });
 
+  /**
+   * Handles user sign-up and redirects to email verification page.
+   *
+   * On successful registration, the user is redirected to `/auth/verify-email`
+   * with their user ID and email as query parameters:
+   *   `/auth/verify-email?id=<userId>&email=<userEmail>`
+   *
+   * The backend uses these parameters to check if the user's email is verified.
+   */
   const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
     await auth.signUp.email({
       email: values.email,
@@ -51,6 +60,7 @@ export const SignUpForm = ({ className, ...props }: SignUpFormProps) => {
           toast.error(ctx.error.message);
         },
         onSuccess: (ctx) => {
+          // Redirect to email verification page with user ID and email
           router.push(
             `/auth/verify-email?id=${ctx.data.user.id}&email=${ctx.data.user.email}`,
           );

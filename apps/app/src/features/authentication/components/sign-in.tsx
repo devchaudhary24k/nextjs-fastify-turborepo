@@ -44,6 +44,13 @@ export const SignInForm = ({ className, ...props }: SignInFormProps) => {
     },
   });
 
+  /**
+   * Handles user sign-in and error feedback.
+   *
+   * - If login fails for reasons other than unverified email, shows the error message.
+   * - If login fails due to unverified email (HTTP 403), shows a specific toast prompting the user to check their email for a verification link.
+   * - On successful login, resets the form and redirects to the callback URL or dashboard.
+   */
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     await auth.signIn.email({
       email: values.email,
