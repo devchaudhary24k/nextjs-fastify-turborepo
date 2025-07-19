@@ -17,7 +17,7 @@ import { checkEmailVerification } from "../api/check-email-verification";
 import { EmailVerificationSchema } from "../validators/auth-schema";
 import EmailVerificationBrokenLink from "./email-verification-broken-link";
 
-export default function EmailVerification() {
+export const EmailVerification = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
@@ -34,7 +34,7 @@ export default function EmailVerification() {
 
     // Proceed with email verification check
     const interval = setInterval(async () => {
-      await checkEmailVerification({ id }).then((response) => {
+      await checkEmailVerification({ id, email }).then((response) => {
         if (response.isVerified) {
           clearInterval(interval);
           router.push("/onboarding");
@@ -152,4 +152,4 @@ export default function EmailVerification() {
       </CardContent>
     </Card>
   );
-}
+};

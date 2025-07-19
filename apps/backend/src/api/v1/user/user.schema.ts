@@ -36,11 +36,12 @@ export const getUserSchema = {
 export const getUserVerificationSchema = {
   tags: ["User"],
   description: "Checks if the user have verified email.",
-  params: {
+  querystring: {
     type: "object",
-    required: ["id"],
+    required: ["id", "email"],
     properties: {
       id: { type: "string" },
+      email: { type: "string", format: "email" },
     },
   },
   response: {

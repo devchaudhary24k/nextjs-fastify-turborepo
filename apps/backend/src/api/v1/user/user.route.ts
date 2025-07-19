@@ -15,7 +15,7 @@ export const userRoutes = async (f: FastifyInstance) => {
   f.get("/users", { schema: getUsersSchema }, getUsersHandler);
   f.get("/users/:id", { schema: getUserSchema }, getUserHandler);
   f.get(
-    "/user/check-email-verification/:id",
+    "/user/check-email-verification",
     { schema: getUserVerificationSchema },
     getUserVerificationController,
   );

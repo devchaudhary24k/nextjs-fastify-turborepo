@@ -1,6 +1,6 @@
 import { db } from "@repo/database";
 import { user } from "@repo/database/schema/index";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import type { FastifyReply, FastifyRequest } from "fastify";
 
 type GetUserParams = {
@@ -9,6 +9,7 @@ type GetUserParams = {
 
 type getUserVerificationControllerParams = {
   id: string;
+  email: string;
 };
 
 export const getUsersHandler = async (
@@ -28,10 +29,10 @@ export const getUserHandler = async (
 };
 
 export const getUserVerificationController = async (
-  req: FastifyRequest<{ Params: getUserVerificationControllerParams }>,
+  req: FastifyRequest<{ Querystring: getUserVerificationControllerParams }>,
   res: FastifyReply,
 ) => {
-  const { id } = req.params;
+  const { id, email } = req.query;
 
   try {
     const result = await db
@@ -39,7 +40,7 @@ export const getUserVerificationController = async (
         isVerified: user.emailVerified,
       })
       .from(user)
-      .where(eq(user.id, id))
+      .where(and(eq(user.id, id), eq(user.email, email)))
       .limit(1)
       .execute();
 
