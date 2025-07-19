@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 
-import "@/env";
+import { env } from "@/env";
 
 const nextConfig: NextConfig = {
   compress: true,
@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "http://localhost:8000/api/:path*",
+        destination: `${env.SERVER_ORIGIN}/api/:path*`,
       },
     ];
   },

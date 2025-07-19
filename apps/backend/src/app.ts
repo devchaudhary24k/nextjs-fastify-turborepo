@@ -1,4 +1,3 @@
-import fastifyCors from "@fastify/cors";
 import type { FastifyInstance } from "fastify";
 import Fastify from "fastify";
 
@@ -11,13 +10,13 @@ export const server = async () => {
   const f: FastifyInstance = Fastify({ logger: true });
 
   // Configure CORS policies
-  f.register(fastifyCors, {
-    origin: env.CLIENT_ORIGIN,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-    credentials: true,
-    maxAge: 86400,
-  });
+  // f.register(fastifyCors, {
+  //   origin: env.CLIENT_ORIGIN,
+  //   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  //   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+  //   credentials: true,
+  //   maxAge: 86400,
+  // });
 
   // Initialize Plugins
   await f.register(registerPlugins);
