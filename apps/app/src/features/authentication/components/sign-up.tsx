@@ -52,7 +52,7 @@ export const SignUpForm = ({ className, ...props }: SignUpFormProps) => {
         },
         onSuccess: (ctx) => {
           router.push(
-            `/auth/verify-email?id=${ctx.data.user.email}&email=${ctx.data.user.email}`,
+            `/auth/verify-email?id=${ctx.data.user.id}&email=${ctx.data.user.email}`,
           );
         },
       },
