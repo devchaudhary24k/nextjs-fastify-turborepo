@@ -8,7 +8,7 @@ import {
 } from "@repo/design-system/components/ui/card";
 import { CheckCircle } from "lucide-react";
 
-export default function EmailVerified() {
+export function EmailVerified() {
   return (
     <Card className="relative z-10 mx-auto w-full max-w-md border shadow-2xl backdrop-blur-sm">
       <CardHeader className="space-y-4 text-center">
