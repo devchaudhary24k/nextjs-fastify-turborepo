@@ -6,6 +6,7 @@ export const env = createEnv({
   extends: [database()],
   server: {
     SERVER_ORIGIN: z.string().url().min(1),
+    BASE_URL: z.string().url().min(1),
   },
   client: {},
 
